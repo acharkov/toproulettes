@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1 Hello, admin!
+
+  table.table.table-striped
+      thead
+        tr
+          th Remove
+          th Site
+          th Rating
+      tbody
+        if sites
+          each site in sites
+            tr
+              td(style="width: 50px;")
+                a(href="http://localhost:3000/admin/site/delete/#{site.id}")
+                  span.glyphicon.glyphicon-remove
+              td= site.url
+              td= site.rating
+
+  form(method="post", action="http://localhost:3000/admin/site/add")
+    fieldset.form-group
+      label(for="sitename") Site: 
+      input.form-control(name="sitename", type="text")
+      small.text-muted Enter a site url
+      br
+      label(for="rating") Rating:
+      input.form-control(name="rating", type="text")
+      small.text-muted Enter initial rating
+    button.btn.btn-primary(type="submit") Add site
+  if !auth	  
+    a(href='http://localhost:3000/steam/authenticate')
+      img(src='/images/steam.jpg')
+  else
+    h1
+      = "You logged in as " + nickname
+    img(src=avatar, alt='steamavatar')
