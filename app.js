@@ -1,13 +1,16 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var sites = require("./data/sites.json");
 var url = 'mongodb://localhost:27017/nodetest1';
-var mongodb = require('mongodb');
-var MongoClient = mongodb.MongoClient;
 var cookieParser = require('cookie-parser');
+var passport = require('passport');
+require('./steam-passport-init');
+var siteModel = require('./app/sites');
+var mongoose = require('mongoose');
 
 var app = express();
+
+mongoose.connect(url);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -19,17 +22,15 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 
+app.use(require('express-session')({secret: 'keyboard cat', resave: false, saveUninitialized: false}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.get('/', function (req, res) {
-    var docs;
-
-    MongoClient.connect(url, function(err, db) {
-	console.log("Connected succesfully");
-
-	var collection = db.collection('usercollections');
-	collection.find({}).toArray(function(err, docs) {
-	    res.render('index.jade', { sites: docs, auth: false });
+	siteModel.find({}, function(err, docs) {
+        res.render('index.jade', { sites: docs, auth: false });
 	});
-    });
     
 });
 
@@ -37,7 +38,7 @@ app.get('/about', function (req, res) {
     res.render('about.jade');
 })
 
-var steamRouter = require('./steam');
+var steamRouter = require('./steam-passport-auth');
 app.use(steamRouter);
 
 var adminRouter = require('./admin');
