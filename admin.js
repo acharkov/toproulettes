@@ -6,12 +6,20 @@ var assert = require('assert');
 var uuid = require('uuid');
 var siteModel = require('./app/sites.js');
 
-
+router.use(function (req, res, next) {
+    if (req.isAuthenticated() && req.user.admin ) {
+        console.log("Admin logged in");
+        next();
+    } else {
+        console.log("Not autheticated");
+        res.redirect('/');
+    }
+});
 
 router.get('/admin', function(req, res) {
     siteModel.find({}, function(err, docs) {
         assert.equal(null, err);
-        res.render('admin.jade');
+        res.render('admin.jade', { sites : docs });
     });
 });
 

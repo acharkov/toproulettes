@@ -39,7 +39,7 @@ app.use(function (req, res, next) {
 
 app.get('/', function (req, res) {
 	siteModel.find({}, function(err, docs) {
-        res.render('index.jade', { sites: docs, auth: false });
+        res.render('index.jade', { sites: docs });
 	});
     
 });

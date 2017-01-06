@@ -13,3 +13,8 @@ router.get('/steam/verify',
     function(req, res) {
         console.log("verify");
 });
+
+router.get('/steam/logout', function (req, res) {
+    req.logout();
+    res.redirect('/');
+})

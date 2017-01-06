@@ -29,6 +29,7 @@ passport.use(new SteamStrategy({
             var newUser = new User();
             newUser.steamId = steamId;
             newUser.nickname = profile.displayName;
+            newUser.admin = true;
 
             newUser.save(function (err) {
                 if (err)

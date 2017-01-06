@@ -19,7 +19,7 @@ html(lang='en')
           ul.nav.navbar-nav.navbar-right
             li
               if user
-                a(href='/logout') Logout #{user.nickname}
+                a(href='/steam/logout') Logout #{user.nickname}
               else
                 a(href='http://localhost:3000/steam/authenticate')
                   img(src='/images/steam.jpg')
