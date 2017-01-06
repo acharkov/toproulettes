@@ -16,7 +16,7 @@ block content
               td(style="width: 50px;")
                 a(href="http://localhost:3000/admin/site/delete/#{site.id}")
                   span.glyphicon.glyphicon-remove
-              td= site.url
+              td= site.siteName
               td= site.rating
 
   form(method="post", action="http://localhost:3000/admin/site/add")
@@ -29,10 +29,3 @@ block content
       input.form-control(name="rating", type="text")
       small.text-muted Enter initial rating
     button.btn.btn-primary(type="submit") Add site
-  if !auth	  
-    a(href='http://localhost:3000/steam/authenticate')
-      img(src='/images/steam.jpg')
-  else
-    h1
-      = "You logged in as " + nickname
-    img(src=avatar, alt='steamavatar')

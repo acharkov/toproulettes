@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 var siteSchema = mongoose.Schema({
-    id  : Number,
-    sitename : String,
+    id  : String,
+    siteName : String,
     rating : Number
 });
 

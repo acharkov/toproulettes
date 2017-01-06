@@ -3,34 +3,31 @@ var router = express.Router();
 module.exports = router;
 
 var assert = require('assert');
-var mongodb = require('mongodb');
 var uuid = require('uuid');
 var siteModel = require('./app/sites.js');
 
+
+
 router.get('/admin', function(req, res) {
     siteModel.find({}, function(err, docs) {
-        if (req.cookies.steamName)
-            var nickname = req.cookies.steamName;
-        else
-            var nickname = undefined;
-        console.log(req.cookies.steamName);
-        res.render('admin.jade', { sites : docs, auth : (nickname != undefined ? true : false), nickname : (nickname ? nickname : undefined) });
+        assert.equal(null, err);
+        res.render('admin.jade');
     });
 });
 
 router.post('/admin/site/add', function(req, res) {
-    var site = {
+    var site = [{
         id: uuid.v4(),
-        url: req.body.sitename,
+        siteName: req.body.sitename,
         rating: req.body.rating
-    };
+    }];
 
-    siteModel.insertMany(site, function(err, result) {
+    siteModel.insertMany(site, function(err, docs) {
         assert.equal(null, err);
-        assert.equal(1, result.insertedCount);
         console.log("Site inserted:" +  site);
-        callback(db, res);
+        res.redirect("/admin");
     });
+    console.log(site);
 });
 
 router.get('/admin/site/delete/:id', function(req, res) {

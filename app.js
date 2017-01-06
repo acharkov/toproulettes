@@ -27,6 +27,16 @@ app.use(require('express-session')({secret: 'keyboard cat', resave: false, saveU
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function (req, res, next) {
+   if (req.isAuthenticated()) {
+       res.locals.user = req.user;
+       next();
+       return;
+   }
+
+   next();
+});
+
 app.get('/', function (req, res) {
 	siteModel.find({}, function(err, docs) {
         res.render('index.jade', { sites: docs, auth: false });

@@ -14,10 +14,3 @@ block content
           tr
             td= site.url
             td= site.rating
-  if !auth	  
-    a(href='http://localhost:3000/steam/authenticate')
-      img(src='/images/steam.jpg')
-  else
-    h1
-      = "You logged in as " + nickname
-    img(src=avatar, alt='steamavatar')
