@@ -51,6 +51,9 @@ app.get('/about', function (req, res) {
 var steamRouter = require('./steam-passport-auth');
 app.use(steamRouter);
 
+var apiRouter = require('./api');
+app.use(apiRouter);
+
 var adminRouter = require('./admin');
 app.use(adminRouter);
 

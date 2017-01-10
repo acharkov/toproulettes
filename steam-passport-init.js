@@ -14,7 +14,6 @@ passport.use(new SteamStrategy({
     },
 
     function(identifier, profile, done) {
-        console.log("steam strategy");
         var steamId = profile.id;
 
         User.findOne({'steamId' : steamId}, function (err, user) {
